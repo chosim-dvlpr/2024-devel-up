@@ -41,7 +41,7 @@ jobs:
       - name: 🏗️ Build
         run: |
           npm run build
-          ls
+          ls -R build
 
       - name: 📤 Upload Artifact File
         uses: actions/upload-artifact@v4
