@@ -9,12 +9,15 @@ on:
       - frontend/**
 
 env:
-  ARTIFACT_DIRECTORY: ./frontend/dist/
+  ARTIFACT_DIRECTORY: ./dist/
 
 jobs:
   build:
     name: Build Test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
 
     steps:
       - uses: actions/checkout@v4
@@ -22,14 +25,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-        working-directory: ./frontend
 
       - name: 🏗️ Install Dependencies
-        working-directory: ./frontend
         run: npm install
 
       - name: 🏗️ Build
-        working-directory: ./frontend
         run: npm run build
 
       - name: 📤 Upload Artifact File
