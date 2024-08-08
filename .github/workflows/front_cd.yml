@@ -58,6 +58,7 @@ jobs:
         with:
           name: react-dist-files
           path: ./frontend/dist/
+          merge-multiple: true
 
       - name: Move Build File
         run: sudo cp ./frontend/dist/* /var/www/html
