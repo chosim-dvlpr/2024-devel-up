@@ -39,7 +39,9 @@ jobs:
           ${{ secrets.SENTRY_AUTH_ENV }}
 
       - name: 🏗️ Build
-        run: npm run build
+        run: |
+          npm run build
+          ls
 
       - name: 📤 Upload Artifact File
         uses: actions/upload-artifact@v4
