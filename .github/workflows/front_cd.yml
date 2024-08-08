@@ -1,0 +1,51 @@
+name: Frontend CD
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - frontend/**
+
+env:
+  ARTIFACT_DIRECTORY: ./frontend/dist/
+
+jobs:
+  build:
+    name: Build Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: 🏗️ Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: 🏗️ Install Dependencies
+        run: npm install
+
+      - name: 🏗️ Build
+        run: npm run build
+
+      - name: 📤 Upload Artifact File
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-dist-files
+          path: ${{ env.ARTIFACT_DIRECTORY }}
+
+  deploy:
+    name: 🚀 Web Deployment
+    needs: build
+    runs-on: [self-hosted, develup-fe-test]
+
+    steps:
+      - name: 📥 Download Artifact File
+        uses: actions/download-artifact@v4
+        with:
+          name: react-dist-files
+          path: /var/www/html/
+
+      - name: 🟢 Nginx Restart
+        run: sudo service nginx restart
