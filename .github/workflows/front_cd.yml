@@ -29,6 +29,15 @@ jobs:
       - name: 🏗️ Install Dependencies
         run: npm install
 
+      - name: 🏗️ Insert Environment Variables
+        run: |
+          touch .env
+          cat << EOF >> .env
+          ${{ secrets.FRONTEND_ENV }}
+          touch .env.sentry-build-plugin
+          cat << EOF >> .env.sentry-build-plugin
+          ${{ secrets.SENTRY_AUTH_ENV }}
+
       - name: 🏗️ Build
         run: npm run build
 
@@ -48,7 +57,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: react-dist-files
-          path: /var/www/html/
+          path: ./frontend/dist/
+
+      - name: Move Build File
+        run: sudo cp ./frontend/dist/* /var/www/html
 
       - name: 🟢 Nginx Restart
         run: sudo service nginx restart
