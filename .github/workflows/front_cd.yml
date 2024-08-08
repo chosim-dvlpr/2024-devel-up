@@ -9,7 +9,7 @@ on:
       - frontend/**
 
 env:
-  ARTIFACT_DIRECTORY: ./dist
+  ARTIFACT_DIRECTORY: ./frontend/dist
 
 jobs:
   build:
