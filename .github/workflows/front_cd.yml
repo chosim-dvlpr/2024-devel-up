@@ -9,7 +9,7 @@ on:
       - frontend/**
 
 env:
-  ARTIFACT_DIRECTORY: ./build/
+  ARTIFACT_DIRECTORY: ./dist/
 
 jobs:
   build:
@@ -41,7 +41,8 @@ jobs:
       - name: 🏗️ Build
         run: |
           npm run build
-          ls -R build
+          ls
+          ls -R dist
 
       - name: 📤 Upload Artifact File
         uses: actions/upload-artifact@v4
